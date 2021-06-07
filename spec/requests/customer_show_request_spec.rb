@@ -4,7 +4,7 @@ RSpec.describe 'Api::V1::Customers Show', type: :request do
   before :each do 
     @customer = Customer.create!(first_name: 'Andrew', last_name: 'Johnston', email: 'andrew@email.com', address: '123 Denver St')
     @tea = TeaType.create(title: 'green', description: 'so yummy and hot', temperature: 85, brew_time: 3)
-    @sub = Subscription.create!(title: @tea.title, price: 3.00, frequency: 12, customer_id: @customer.id, tea_type_id: @tea.id)
+    @sub = Subscription.create!(title: @tea.title, price: 3.00, frequency: 'one', customer_id: @customer.id, tea_type_id: @tea.id)
   end
   
 
