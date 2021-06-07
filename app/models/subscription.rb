@@ -8,4 +8,5 @@ class Subscription < ApplicationRecord
   validates :frequency, presence: true
 
   enum status: [:active, :cancelled]
+  enum frequency: [:one, :two, :four]
 end
