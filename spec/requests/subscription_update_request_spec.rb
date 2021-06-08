@@ -22,8 +22,15 @@ RSpec.describe 'Api::V1:: Update', type: :request do
 
   describe 'sad path' do 
     it 'should raise an error if the sub id is invalid' do 
-      expect{patch api_v1_subscription_path(1000000)}.to raise_error(ActiveRecord::RecordNotFound)
-      expect{patch api_v1_subscription_path('hello there')}.to raise_error(ActiveRecord::RecordNotFound)
+      patch api_v1_subscription_path(1000000)
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to have_http_status(404)
+      expect(json[:error]).to eq('record not found')
+
+      patch api_v1_subscription_path
+      json2 = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to have_http_status(404)
+      expect(json2[:error]).to eq('record not found')
     end 
   end 
 end

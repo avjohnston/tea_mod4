@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Subscriptions Create', type: :request do
   before :each do
     @customer = Customer.create!(first_name: 'Andrew', last_name: 'Johnston', email: 'andrew@email.com', address: '123 Denver St')
-    @tea = TeaType.create(title: 'green', description: 'so yummy and hot', temperature: 85, brew_time: 3)
+    @tea = TeaType.create!(title: 'green', description: 'so yummy and hot', temperature: 85, brew_time: 3)
   end
 
   describe 'happy path' do
@@ -42,8 +42,15 @@ RSpec.describe 'Api::V1::Subscriptions Create', type: :request do
         freq: 'one'
       }
 
-      expect{post api_v1_subscriptions_path, params: invalid_params}.to raise_error(ActiveRecord::RecordNotFound)
-      expect{post api_v1_subscriptions_path, params: invalid_params2}.to raise_error(ActiveRecord::RecordNotFound)
+      post api_v1_subscriptions_path, params: invalid_params
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to have_http_status(404)
+      expect(json[:error]).to eq('record not found')
+
+      post api_v1_subscriptions_path, params: invalid_params2
+      json2 = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to have_http_status(404)
+      expect(json2[:error]).to eq('record not found')
     end
     
     it 'invalid frequency should return invalid frequency' do 
@@ -83,8 +90,15 @@ RSpec.describe 'Api::V1::Subscriptions Create', type: :request do
         freq: 'one'
       }
 
-      expect{post api_v1_subscriptions_path, params: invalid_params}.to raise_error(ActiveRecord::RecordNotFound)
-      expect{post api_v1_subscriptions_path, params: invalid_params2}.to raise_error(ActiveRecord::RecordNotFound)
+      post api_v1_subscriptions_path, params: invalid_params
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to have_http_status(404)
+      expect(json[:error]).to eq('record not found')
+
+      post api_v1_subscriptions_path, params: invalid_params2
+      json2 = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to have_http_status(404)
+      expect(json2[:error]).to eq('record not found')
     end 
   end 
 end

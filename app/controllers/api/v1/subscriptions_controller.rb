@@ -15,5 +15,5 @@ class Api::V1::SubscriptionsController < ApplicationController
     @sub.update(status: 'cancelled')
 
     render json: {data: 'subscription successfully cancelled'}, status: 200
-  end 
+  end
 end

@@ -36,7 +36,11 @@ RSpec.describe 'Api::V1::Customers Show', type: :request do
 
   describe 'sad path' do 
     it 'should raise error if id doesnt match a customer' do 
-      expect{get api_v1_customer_path(100000000)}.to raise_error(ActiveRecord::RecordNotFound)
+      get api_v1_customer_path(100000000)
+
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to have_http_status(404)
+      expect(json[:error]).to eq('record not found')
     end
   end
 end
