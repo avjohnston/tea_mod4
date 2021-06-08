@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+  rescue_from ActiveRecord::RecordNotFound, with: :render_unprocessable_entity_response
 
   def render_unprocessable_entity_response
-    render json: exception.record.errors, status: 404
+    render json: {error: 'record not found'}, status: 404
   end
 
   def invalid_params
