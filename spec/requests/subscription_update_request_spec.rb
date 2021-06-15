@@ -8,7 +8,7 @@ RSpec.describe 'Api::V1:: Update', type: :request do
   end
 
   describe 'happy path' do 
-    it 'should return 204 given valid params' do
+    it 'should return 200 given valid params' do
       patch api_v1_subscription_path(@sub.id)
 
       json = JSON.parse(response.body, symbolize_names: true)
@@ -17,8 +17,8 @@ RSpec.describe 'Api::V1:: Update', type: :request do
 
       subscription = Subscription.find(@sub.id)
       expect(subscription.status).to eq('cancelled')
-    end 
-  end 
+    end
+  end
 
   describe 'sad path' do 
     it 'should raise an error if the sub id is invalid' do 
@@ -31,6 +31,6 @@ RSpec.describe 'Api::V1:: Update', type: :request do
       json2 = JSON.parse(response.body, symbolize_names: true)
       expect(response).to have_http_status(404)
       expect(json2[:error]).to eq('record not found')
-    end 
-  end 
+    end
+  end
 end
